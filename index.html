@@ -1,588 +1,330 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Web System Lab</title>
-
-  <style>
-    :root {
-      --bg: #0b1020;
-      --panel: #151d30;
-      --panel2: #0f1728;
-      --text: #edf3ff;
-      --muted: #9baac4;
-      --blue: #4f8cff;
-      --border: #293650;
-      --green: #38d996;
-      --red: #ff7272;
-      --yellow: #ffd166;
-    }
-
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      background: var(--bg);
-      color: var(--text);
-      font-family: Arial, Helvetica, sans-serif;
-    }
-
-    header {
-      padding: 25px 18px;
-      text-align: center;
-      background: linear-gradient(135deg, #142746, #11172a);
-      border-bottom: 1px solid var(--border);
-    }
-
-    header h1 {
-      margin: 0 0 8px;
-      font-size: clamp(25px, 5vw, 36px);
-    }
-
-    header p {
-      margin: 0;
-      color: var(--muted);
-      line-height: 1.5;
-    }
-
-    main {
-      width: min(1200px, 100%);
-      margin: auto;
-      padding: 18px;
-    }
-
-    .panel {
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 18px;
-      margin-bottom: 18px;
-      min-width: 0;
-    }
-
-    h2 {
-      margin: 0 0 15px;
-      font-size: 19px;
-    }
-
-    label {
-      display: block;
-      margin: 12px 0 7px;
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    input, select, button {
-      width: 100%;
-      min-height: 45px;
-      border-radius: 8px;
-      padding: 11px 12px;
-      font-size: 15px;
-    }
-
-    input, select {
-      color: var(--text);
-      background: var(--panel2);
-      border: 1px solid var(--border);
-    }
-
-    button {
-      border: 0;
-      cursor: pointer;
-      font-weight: bold;
-      background: var(--blue);
-      color: white;
-    }
-
-    button:disabled {
-      opacity: 0.6;
-      cursor: wait;
-    }
-
-    button.secondary {
-      background: #293650;
-      margin-top: 8px;
-    }
-
-    .controls {
-      display: grid;
-      grid-template-columns: minmax(120px, 0.8fr) minmax(0, 3fr);
-      gap: 10px;
-      align-items: end;
-    }
-
-    .actions {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-top: 15px;
-    }
-
-    .hint {
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.6;
-    }
-
-    .status {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 13px;
-      border-radius: 9px;
-      background: var(--panel2);
-      border: 1px solid var(--border);
-      margin-top: 14px;
-      overflow-wrap: anywhere;
-    }
-
-    .dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      flex: 0 0 10px;
-      background: var(--yellow);
-    }
-
-    .dot.success { background: var(--green); }
-    .dot.error { background: var(--red); }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 18px;
-    }
-
-    .preview {
-      padding: 0;
-      overflow: hidden;
-    }
-
-    .preview h2 {
-      padding: 17px 17px 0;
-    }
-
-    .preview iframe {
-      display: block;
-      width: 100%;
-      height: 440px;
-      background: white;
-      border: 0;
-      border-top: 1px solid var(--border);
-    }
-
-    pre {
-      margin: 0;
-      padding: 13px;
-      min-height: 100px;
-      max-height: 350px;
-      overflow: auto;
-      white-space: pre-wrap;
-      overflow-wrap: anywhere;
-      background: var(--panel2);
-      color: #d7e4ff;
-      border-radius: 8px;
-      font: 13px/1.6 Consolas, monospace;
-    }
-
-    .empty {
-      color: var(--muted);
-    }
-
-    .notice {
-      padding: 13px;
-      margin-top: 12px;
-      border: 1px solid #66532b;
-      background: #302819;
-      border-radius: 9px;
-      color: #ffe2a3;
-      font-size: 13px;
-      line-height: 1.6;
-    }
-
-    footer {
-      text-align: center;
-      color: var(--muted);
-      padding: 15px;
-      font-size: 12px;
-    }
-
-    @media (max-width: 700px) {
-      main { padding: 12px; }
-      .grid { grid-template-columns: 1fr; }
-      .controls { grid-template-columns: 1fr; }
-      .preview iframe { height: 380px; }
-      .panel { padding: 14px; }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Web System Lab</title>
+<style>
+:root{--bg:#0b1020;--panel:#151d30;--panel2:#0f1728;--text:#edf3ff;--muted:#9baac4;--blue:#4f8cff;--border:#293650;--green:#38d996;--red:#ff7272;--yellow:#ffd166}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:Arial,Helvetica,sans-serif}
+header{padding:25px 18px;text-align:center;background:linear-gradient(135deg,#142746,#11172a);border-bottom:1px solid var(--border)}
+header h1{margin:0 0 8px;font-size:clamp(25px,5vw,36px)}
+header p{margin:0;color:var(--muted);line-height:1.5}
+main{width:min(1200px,100%);margin:auto;padding:18px}
+.panel{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:18px;margin-bottom:18px;min-width:0}
+h2{margin:0 0 15px;font-size:19px}
+label{display:block;margin:12px 0 7px;color:var(--muted);font-size:14px}
+input,select,button{width:100%;min-height:45px;border-radius:8px;padding:11px 12px;font-size:15px}
+input,select{color:var(--text);background:var(--panel2);border:1px solid var(--border)}
+button{border:0;cursor:pointer;font-weight:bold;background:var(--blue);color:white}
+button:disabled{opacity:.6;cursor:wait}
+button.secondary{background:#293650;margin-top:8px}
+.controls{display:grid;grid-template-columns:minmax(120px,.8fr) minmax(0,3fr);gap:10px;align-items:end}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:15px}
+.hint{color:var(--muted);font-size:13px;line-height:1.6}
+.status{display:flex;align-items:center;gap:10px;padding:13px;border-radius:9px;background:var(--panel2);border:1px solid var(--border);margin-top:14px;overflow-wrap:anywhere}
+.dot{width:10px;height:10px;border-radius:50%;flex:0 0 10px;background:var(--yellow)}
+.dot.success{background:var(--green)}.dot.error{background:var(--red)}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.preview{padding:0;overflow:hidden}.preview h2{padding:17px 17px 0}
+.preview iframe{display:block;width:100%;height:440px;background:white;border:0;border-top:1px solid var(--border)}
+pre{margin:0;padding:13px;min-height:100px;max-height:350px;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;background:var(--panel2);color:#d7e4ff;border-radius:8px;font:13px/1.6 Consolas,monospace}
+.empty{color:var(--muted)}
+.notice{padding:13px;margin-top:12px;border:1px solid #66532b;background:#302819;border-radius:9px;color:#ffe2a3;font-size:13px;line-height:1.6}
+footer{text-align:center;color:var(--muted);padding:15px;font-size:12px}
+@media(max-width:700px){main{padding:12px}.grid,.controls{grid-template-columns:1fr}.preview iframe{height:380px}.panel{padding:14px}}
+</style>
 </head>
-
 <body>
-  <header>
-    <h1>Web System Lab</h1>
-    <p>Website preview, HTTP response inspection and IP testing</p>
-  </header>
+<header>
+<h1>Web System Lab</h1>
+<p>Website preview, HTTP response inspection and IP testing</p>
+</header>
 
-  <main>
-    <section class="panel">
-      <h2>Connection Tester</h2>
+<main>
+<section class="panel">
+<h2>Connection Tester</h2>
+<div class="controls">
+<div>
+<label for="mode">Connection type</label>
+<select id="mode">
+<option value="https">HTTPS / HTTP URL</option>
+<option value="ip">IP address</option>
+</select>
+</div>
+<div>
+<label for="target">Website URL or IP address</label>
+<input id="target" type="text" placeholder="https://example.com" value="https://example.com" autocomplete="url" spellcheck="false">
+</div>
+</div>
 
-      <div class="controls">
-        <div>
-          <label for="mode">Connection type</label>
-          <select id="mode">
-            <option value="https">HTTPS / HTTP URL</option>
-            <option value="ip">IP address</option>
-          </select>
-        </div>
+<div class="actions">
+<button id="loadBtn">Load Website</button>
+<button id="testBtn" class="secondary">Test HTTP Request</button>
+</div>
 
-        <div>
-          <label for="target">Website URL or IP address</label>
-          <input
-            id="target"
-            type="text"
-            placeholder="https://example.com"
-            value="https://example.com"
-            autocomplete="url"
-            spellcheck="false"
-          >
-        </div>
-      </div>
+<p class="hint">HTTP tests run through the Render backend. Only test public systems you are authorized to access. Private LAN devices cannot be reached from Render.</p>
 
-      <div class="actions">
-        <button id="loadBtn">Load Website</button>
-        <button id="testBtn" class="secondary">Test HTTP Request</button>
-      </div>
+<div class="status" aria-live="polite">
+<span class="dot" id="statusDot"></span>
+<div><strong id="statusTitle">Ready</strong><div id="statusText" class="hint">Enter an address to begin.</div></div>
+</div>
+</section>
 
-      <p class="hint">
-        HTTPS/HTTP mode accepts a complete website URL. IP mode accepts
-        an IP address and optional port, for example 192.168.1.10:8123.
-        Use only systems you are authorized to access.
-      </p>
+<div class="grid">
+<section class="panel preview">
+<h2>Live Website Preview</h2>
+<iframe id="preview" title="Website preview" src="about:blank" referrerpolicy="no-referrer" sandbox="allow-forms allow-scripts allow-same-origin allow-popups"></iframe>
+<p class="hint" style="padding:0 15px 12px">Some websites block iframe previews. Use Open in New Tab if the preview is blank.</p>
+<div style="padding:0 15px 15px"><button id="openBtn" class="secondary">Open in New Tab</button></div>
+</section>
 
-      <div class="status" aria-live="polite">
-        <span class="dot" id="statusDot"></span>
-        <div>
-          <strong id="statusTitle">Ready</strong>
-          <div id="statusText" class="hint">
-            Enter an address to begin.
-          </div>
-        </div>
-      </div>
-    </section>
+<section class="panel">
+<h2>HTTP Response Status</h2>
+<pre id="httpStatus" class="empty">No request made yet.</pre>
+<h2 style="margin-top:20px">Response Headers</h2>
+<pre id="headers" class="empty">Waiting for request...</pre>
+</section>
 
-    <div class="grid">
-      <section class="panel preview">
-        <h2>Live Website Preview</h2>
-        <iframe
-          id="preview"
-          title="Website preview"
-          src="about:blank"
-          referrerpolicy="no-referrer"
-          sandbox="allow-forms allow-scripts allow-same-origin allow-popups"
-        ></iframe>
-        <p class="hint" style="padding: 0 15px 12px">
-          Some websites block iframe previews. Use Open in New Tab
-          if the preview is blank.
-        </p>
-        <div style="padding: 0 15px 15px">
-          <button id="openBtn" class="secondary">Open in New Tab</button>
-        </div>
-      </section>
+<section class="panel">
+<h2>Response Body</h2>
+<pre id="body" class="empty">The response body will appear here.</pre>
+</section>
 
-      <section class="panel">
-        <h2>HTTP Response Status</h2>
-        <pre id="httpStatus" class="empty">No request made yet.</pre>
-
-        <h2 style="margin-top: 20px">Response Headers</h2>
-        <pre id="headers" class="empty">Waiting for request...</pre>
-      </section>
-
-      <section class="panel">
-        <h2>Response Body</h2>
-        <pre id="body" class="empty">The response body will appear here when browser security permits.</pre>
-      </section>
-
-      <section class="panel">
-        <h2>Request Information</h2>
-        <pre id="info">Request URL: Not set
+<section class="panel">
+<h2>Request Information</h2>
+<pre id="info">Backend: Not connected
 Method: GET
-Mode: Browser fetch
-Credentials: Omitted</pre>
+Mode: Render server request</pre>
+<div class="notice">The backend can inspect readable HTTP responses. It cannot bypass authentication, firewalls or security rules. Local/private IP testing requires a device inside that network.</div>
+</section>
+</div>
+</main>
 
-        <div class="notice">
-          Browser security note: a website may open normally but refuse
-          JavaScript access from GitHub Pages because of CORS.
-          This dashboard cannot bypass CORS, authentication, firewalls,
-          or Cloudflare security rules.
-        </div>
-      </section>
-    </div>
-  </main>
+<footer>Web System Lab · Educational network testing dashboard</footer>
 
-  <footer>
-    Web System Lab · Educational network testing dashboard
-  </footer>
+<script>
+"use strict";
 
-  <script>
-    "use strict";
+const API = "https://web-system-lab-api.onrender.com/api/test";
 
-    const mode = document.getElementById("mode");
-    const target = document.getElementById("target");
-    const loadBtn = document.getElementById("loadBtn");
-    const testBtn = document.getElementById("testBtn");
-    const openBtn = document.getElementById("openBtn");
+const mode = document.getElementById("mode");
+const target = document.getElementById("target");
+const loadBtn = document.getElementById("loadBtn");
+const testBtn = document.getElementById("testBtn");
+const openBtn = document.getElementById("openBtn");
+const preview = document.getElementById("preview");
+const statusDot = document.getElementById("statusDot");
+const statusTitle = document.getElementById("statusTitle");
+const statusText = document.getElementById("statusText");
+const httpStatus = document.getElementById("httpStatus");
+const headersBox = document.getElementById("headers");
+const bodyBox = document.getElementById("body");
+const info = document.getElementById("info");
 
-    const preview = document.getElementById("preview");
-    const statusDot = document.getElementById("statusDot");
-    const statusTitle = document.getElementById("statusTitle");
-    const statusText = document.getElementById("statusText");
+let currentUrl = "";
+let requestNumber = 0;
 
-    const httpStatus = document.getElementById("httpStatus");
-    const headersBox = document.getElementById("headers");
-    const bodyBox = document.getElementById("body");
-    const info = document.getElementById("info");
+function setStatus(title, message, type = "") {
+  statusTitle.textContent = title;
+  statusText.textContent = message;
+  statusDot.className = "dot" + (type ? " " + type : "");
+}
 
-    let currentUrl = "";
-    let requestNumber = 0;
+function normalizeUrl() {
+  let value = target.value.trim();
 
-    function setStatus(title, message, type = "") {
-      statusTitle.textContent = title;
-      statusText.textContent = message;
-      statusDot.className = "dot" + (type ? " " + type : "");
+  if (!value) throw new Error("Enter a website URL or IP address.");
+  if (/\s/.test(value)) throw new Error("The address cannot contain spaces.");
+
+  if (mode.value === "ip") {
+    if (value.includes("://")) {
+      throw new Error("In IP mode, enter an IP address and optional port only.");
     }
 
-    function normalizeUrl() {
-      let value = target.value.trim();
+    const ipv4 = /^\d{1,3}(?:\.\d{1,3}){3}(?::\d{1,5})?$/.test(value);
+    const ipv6 = /^\[[0-9a-fA-F:]+\](?::\d{1,5})?$/.test(value);
 
-      if (!value) {
-        throw new Error("Enter a website URL or IP address.");
-      }
-
-      if (/\s/.test(value)) {
-        throw new Error("The address cannot contain spaces.");
-      }
-
-      if (mode.value === "ip") {
-        if (value.includes("://")) {
-          throw new Error(
-            "In IP mode, enter an IP address and optional port only."
-          );
-        }
-
-        // IPv6 literals must be enclosed in square brackets,
-        // for example [2001:db8::1]:8123.
-        const isIPv4 = /^\d{1,3}(?:\.\d{1,3}){3}(?::\d{1,5})?$/.test(value);
-        const isIPv6 = /^\[[0-9a-fA-F:]+\](?::\d{1,5})?$/.test(value);
-
-        if (!isIPv4 && !isIPv6) {
-          throw new Error(
-            "Enter a valid IPv4 address, or a bracketed IPv6 address."
-          );
-        }
-
-        const portMatch = value.match(/:(\d+)$/);
-        if (portMatch) {
-          const port = Number(portMatch[1]);
-          if (port < 1 || port > 65535) {
-            throw new Error("Port must be between 1 and 65535.");
-          }
-        }
-
-        // Private office IPs generally use HTTP unless configured otherwise.
-        value = "http://" + value;
-      } else if (!/^https?:\/\//i.test(value)) {
-        value = "https://" + value;
-      }
-
-      let parsed;
-      try {
-        parsed = new URL(value);
-      } catch {
-        throw new Error("That URL is not valid.");
-      }
-
-      if (!["http:", "https:"].includes(parsed.protocol)) {
-        throw new Error("Only HTTP and HTTPS addresses are supported.");
-      }
-
-      if (parsed.username || parsed.password) {
-        throw new Error("Do not put usernames or passwords in the URL.");
-      }
-
-      return parsed.href;
+    if (!ipv4 && !ipv6) {
+      throw new Error("Enter an IPv4 address or bracketed IPv6 address.");
     }
 
-    function resetResults(url) {
-      httpStatus.textContent = "Request in progress...";
-      headersBox.textContent = "Waiting for response...";
-      bodyBox.textContent = "Waiting for response...";
-      info.textContent =
-        "Request URL: " + url +
-        "\nMethod: GET" +
-        "\nMode: Browser fetch" +
-        "\nCredentials: Omitted";
+    const address = value.replace(/:\d+$/, "");
+    if (ipv4) {
+      const ipParts = address.split(".").map(Number);
+      if (ipParts.some(n => n < 0 || n > 255)) {
+        throw new Error("Invalid IPv4 address.");
+      }
     }
 
-    function showError(message, url) {
-      httpStatus.textContent = "Request could not be completed.";
-      headersBox.textContent = "Response headers are unavailable.";
-      bodyBox.textContent = message;
-      info.textContent =
-        "Request URL: " + (url || "Not available") +
-        "\nMethod: GET" +
-        "\nResult: Failed in browser";
-      setStatus(
-        "Request failed or response blocked",
-        message,
-        "error"
-      );
+    const portMatch = value.match(/:(\d+)$/);
+    if (portMatch && (+portMatch[1] < 1 || +portMatch[1] > 65535)) {
+      throw new Error("Port must be between 1 and 65535.");
     }
 
-    function prepareUrl() {
-      const url = normalizeUrl();
-      currentUrl = url;
-      return url;
+    value = "http://" + value;
+  } else if (!/^https?:\/\//i.test(value)) {
+    value = "https://" + value;
+  }
+
+  let parsed;
+  try {
+    parsed = new URL(value);
+  } catch {
+    throw new Error("That URL is not valid.");
+  }
+
+  if (!["http:", "https:"].includes(parsed.protocol)) {
+    throw new Error("Only HTTP and HTTPS are supported.");
+  }
+
+  if (parsed.username || parsed.password) {
+    throw new Error("Do not put usernames or passwords in the URL.");
+  }
+
+  return parsed.href;
+}
+
+function prepareUrl() {
+  currentUrl = normalizeUrl();
+  return currentUrl;
+}
+
+function showError(message, url = "") {
+  httpStatus.textContent = "Request could not be completed.";
+  headersBox.textContent = "Response headers unavailable.";
+  bodyBox.textContent = message;
+  info.textContent = "Backend: " + API +
+    "\nTarget URL: " + (url || "Not available") +
+    "\nMethod: GET";
+  setStatus("Request failed", message, "error");
+}
+
+loadBtn.addEventListener("click", () => {
+  try {
+    const url = prepareUrl();
+    preview.src = url;
+    info.textContent = "Preview URL: " + url +
+      "\nPreview: Browser iframe\nHTTP inspection: Use Test HTTP Request";
+    setStatus("Preview requested",
+      "The browser is trying to display the website.");
+  } catch (error) {
+    showError(error.message);
+  }
+});
+
+openBtn.addEventListener("click", () => {
+  try {
+    const url = prepareUrl();
+    window.open(url, "_blank", "noopener,noreferrer");
+  } catch (error) {
+    showError(error.message);
+  }
+});
+
+testBtn.addEventListener("click", async () => {
+  let url;
+  try {
+    url = prepareUrl();
+  } catch (error) {
+    showError(error.message);
+    return;
+  }
+
+  const thisRequest = ++requestNumber;
+  testBtn.disabled = true;
+  loadBtn.disabled = true;
+
+  httpStatus.textContent = "Waiting for Render backend...";
+  headersBox.textContent = "Waiting for response...";
+  bodyBox.textContent = "Waiting for response...";
+  info.textContent = "Backend: " + API +
+    "\nTarget URL: " + url +
+    "\nMethod: GET\nTransport: Render backend";
+
+  setStatus("Contacting backend",
+    "A free Render service may take a little time to wake up.");
+
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 45000);
+
+  try {
+    const endpoint = API + "?url=" + encodeURIComponent(url);
+    const response = await fetch(endpoint, {
+      method: "GET",
+      mode: "cors",
+      credentials: "omit",
+      cache: "no-store",
+      signal: controller.signal
+    });
+
+    const data = await response.json();
+
+    if (thisRequest !== requestNumber) return;
+
+    if (!response.ok || !data.success) {
+      const message = data.error || "The backend could not test this address.";
+      httpStatus.textContent = "Backend HTTP status: " + response.status;
+      headersBox.textContent = "No target response headers returned.";
+      bodyBox.textContent = message +
+        (data.detail ? "\n\nDetails: " + data.detail : "");
+      info.textContent = "Backend: " + API +
+        "\nTarget URL: " + (data.url || url) +
+        "\nResult: Failed";
+      setStatus("Test unsuccessful", message, "error");
+      return;
     }
 
-    loadBtn.addEventListener("click", () => {
-      try {
-        const url = prepareUrl();
+    httpStatus.textContent =
+      "Target status: " + data.status_code + " " + data.reason +
+      "\nFinal URL: " + data.final_url +
+      "\nResponse time: " + data.elapsed_ms + " ms" +
+      "\nBody truncated: " + data.body_truncated;
 
-        // A preview can load even if JavaScript cannot read its response.
-        preview.src = url;
+    headersBox.textContent = Object.entries(data.headers || {})
+      .map(([name, value]) => name + ": " + value).join("\n")
+      || "No response headers returned.";
 
-        info.textContent =
-          "Preview URL: " + url +
-          "\nPreview: Opened in isolated iframe" +
-          "\nHTTP response access: Not yet tested";
+    bodyBox.textContent = data.body || "[No readable text body returned]";
+    info.textContent = "Backend: " + API +
+      "\nRequested URL: " + data.url +
+      "\nFinal URL: " + data.final_url +
+      "\nMethod: GET\nTransport: Render backend";
 
-        setStatus(
-          "Preview requested",
-          "The browser is trying to display the website. This does not confirm HTTP response access.",
-          ""
-        );
-      } catch (error) {
-        showError(error.message, "");
-      }
-    });
+    const ok = data.status_code >= 200 && data.status_code < 400;
+    setStatus(
+      ok ? "HTTP response received" : "HTTP error response received",
+      "The backend received HTTP status " + data.status_code + ".",
+      ok ? "success" : "error"
+    );
+  } catch (error) {
+    if (thisRequest !== requestNumber) return;
+    showError(
+      error.name === "AbortError"
+        ? "Timed out waiting for the backend. Render may be waking up, or the target may be slow."
+        : "Could not contact the backend. Check that the Render service is live and that the browser can reach it.\n\n" + error.message,
+      url
+    );
+  } finally {
+    clearTimeout(timeout);
+    if (thisRequest === requestNumber) {
+      testBtn.disabled = false;
+      loadBtn.disabled = false;
+    }
+  }
+});
 
-    openBtn.addEventListener("click", () => {
-      try {
-        const url = prepareUrl();
-        window.open(url, "_blank", "noopener,noreferrer");
-      } catch (error) {
-        showError(error.message, "");
-      }
-    });
+mode.addEventListener("change", () => {
+  target.value = mode.value === "ip"
+    ? "192.168.1.10:8123"
+    : "https://example.com";
+  setStatus("Ready", "Enter an address and choose an action.");
+});
 
-    testBtn.addEventListener("click", async () => {
-      let url;
-
-      try {
-        url = prepareUrl();
-      } catch (error) {
-        showError(error.message, "");
-        return;
-      }
-
-      const thisRequest = ++requestNumber;
-      testBtn.disabled = true;
-      loadBtn.disabled = true;
-
-      resetResults(url);
-      setStatus(
-        "HTTPS Request",
-        "Waiting for the server response. Browser security may block access.",
-        ""
-      );
-
-      // Abort slow requests after 15 seconds.
-      const controller = new AbortController();
-      const timeout = setTimeout(() => controller.abort(), 15000);
-
-      try {
-        const response = await fetch(url, {
-          method: "GET",
-          mode: "cors",
-          credentials: "omit",
-          redirect: "follow",
-          cache: "no-store",
-          signal: controller.signal
-        });
-
-        if (thisRequest !== requestNumber) return;
-
-        httpStatus.textContent =
-          "Status: " + response.status +
-          " " + response.statusText +
-          "\nOK: " + response.ok +
-          "\nFinal URL: " + response.url +
-          "\nRedirected: " + response.redirected;
-
-        const headerLines = [];
-        response.headers.forEach((value, name) => {
-          headerLines.push(name + ": " + value);
-        });
-
-        headersBox.textContent = headerLines.length
-          ? headerLines.join("\n")
-          : "No readable response headers.";
-
-        const text = await response.text();
-
-        bodyBox.textContent = text.length > 20000
-          ? text.slice(0, 20000) + "\n\n[Body truncated at 20,000 characters]"
-          : (text || "[Empty response body]");
-
-        setStatus(
-          response.ok ? "HTTP request successful" : "HTTP response received",
-          "The browser could read the response. HTTP status: " + response.status,
-          response.ok ? "success" : "error"
-        );
-      } catch (error) {
-        if (thisRequest !== requestNumber) return;
-
-        if (error.name === "AbortError") {
-          showError(
-            "The request timed out after 15 seconds. The server may be slow, unreachable, or the browser may be waiting on a blocked request.",
-            url
-          );
-        } else {
-          showError(
-            "The browser could not expose the response to this dashboard. Possible causes include CORS restrictions, TLS/network errors, Cloudflare rules, or the server refusing the request.\n\nTechnical detail: " +
-            error.message +
-            "\n\nTry Open in New Tab to check whether the website itself opens.",
-            url
-          );
-        }
-      } finally {
-        clearTimeout(timeout);
-        if (thisRequest === requestNumber) {
-          testBtn.disabled = false;
-          loadBtn.disabled = false;
-        }
-      }
-    });
-
-    mode.addEventListener("change", () => {
-      target.value = mode.value === "ip"
-        ? "192.168.1.10:8123"
-        : "https://example.com";
-
-      setStatus(
-        "Ready",
-        "Enter an address and choose an action.",
-        ""
-      );
-    });
-
-    target.addEventListener("keydown", event => {
-      if (event.key === "Enter") {
-        testBtn.click();
-      }
-    });
-  </script>
+target.addEventListener("keydown", event => {
+  if (event.key === "Enter") testBtn.click();
+});
+</script>
 </body>
 </html>
