@@ -1,216 +1,588 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Web System Lab</title>
-<style>
-*{box-sizing:border-box}
-body{margin:0;font-family:Arial,sans-serif;background:#eef3f8;color:#172033}
-header{background:#12345a;color:white;padding:22px 16px}
-header h1{margin:0 0 8px;font-size:25px}
-header p{margin:0;color:#d8e7f8;line-height:1.5}
-main{max-width:1000px;margin:auto;padding:16px}
-.card{background:white;border:1px solid #d7e0eb;border-radius:12px;padding:16px;margin-bottom:15px}
-h2{font-size:19px;margin:0 0 12px}
-label{display:block;font-weight:bold;margin:12px 0 7px}
-input{width:100%;padding:12px;border:1px solid #9eafc4;border-radius:7px;font-size:16px}
-button{padding:11px 15px;border:0;border-radius:7px;background:#1769aa;color:white;font-size:15px;cursor:pointer;margin:8px 5px 0 0}
-button.secondary{background:#e5edf5;color:#17324e}
-#status{padding:12px;background:#f0f5fa;border-radius:8px;line-height:1.6;overflow-wrap:anywhere}
-.stages{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:9px}
-.stage{border:1px solid #cbd6e3;border-radius:8px;padding:12px;background:#f8fafc}
-.stage.active{border:2px solid #1769aa;background:#e4f2ff}
-.stage h3{font-size:14px;margin:0 0 7px}
-.stage p{font-size:13px;line-height:1.45;margin:0}
-#preview{width:100%;height:350px;border:1px solid #cbd6e3;border-radius:8px;background:white}
-pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#f3f6fa;padding:12px;border-radius:8px;font-size:13px;max-height:300px;overflow:auto}
-.note{font-size:14px;color:#4a5a70;line-height:1.6}
-footer{text-align:center;padding:20px;color:#58677a;font-size:13px}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Web System Lab</title>
+
+  <style>
+    :root {
+      --bg: #0b1020;
+      --panel: #151d30;
+      --panel2: #0f1728;
+      --text: #edf3ff;
+      --muted: #9baac4;
+      --blue: #4f8cff;
+      --border: #293650;
+      --green: #38d996;
+      --red: #ff7272;
+      --yellow: #ffd166;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    header {
+      padding: 25px 18px;
+      text-align: center;
+      background: linear-gradient(135deg, #142746, #11172a);
+      border-bottom: 1px solid var(--border);
+    }
+
+    header h1 {
+      margin: 0 0 8px;
+      font-size: clamp(25px, 5vw, 36px);
+    }
+
+    header p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    main {
+      width: min(1200px, 100%);
+      margin: auto;
+      padding: 18px;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 18px;
+      min-width: 0;
+    }
+
+    h2 {
+      margin: 0 0 15px;
+      font-size: 19px;
+    }
+
+    label {
+      display: block;
+      margin: 12px 0 7px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    input, select, button {
+      width: 100%;
+      min-height: 45px;
+      border-radius: 8px;
+      padding: 11px 12px;
+      font-size: 15px;
+    }
+
+    input, select {
+      color: var(--text);
+      background: var(--panel2);
+      border: 1px solid var(--border);
+    }
+
+    button {
+      border: 0;
+      cursor: pointer;
+      font-weight: bold;
+      background: var(--blue);
+      color: white;
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: wait;
+    }
+
+    button.secondary {
+      background: #293650;
+      margin-top: 8px;
+    }
+
+    .controls {
+      display: grid;
+      grid-template-columns: minmax(120px, 0.8fr) minmax(0, 3fr);
+      gap: 10px;
+      align-items: end;
+    }
+
+    .actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .hint {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .status {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 13px;
+      border-radius: 9px;
+      background: var(--panel2);
+      border: 1px solid var(--border);
+      margin-top: 14px;
+      overflow-wrap: anywhere;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      flex: 0 0 10px;
+      background: var(--yellow);
+    }
+
+    .dot.success { background: var(--green); }
+    .dot.error { background: var(--red); }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .preview {
+      padding: 0;
+      overflow: hidden;
+    }
+
+    .preview h2 {
+      padding: 17px 17px 0;
+    }
+
+    .preview iframe {
+      display: block;
+      width: 100%;
+      height: 440px;
+      background: white;
+      border: 0;
+      border-top: 1px solid var(--border);
+    }
+
+    pre {
+      margin: 0;
+      padding: 13px;
+      min-height: 100px;
+      max-height: 350px;
+      overflow: auto;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      background: var(--panel2);
+      color: #d7e4ff;
+      border-radius: 8px;
+      font: 13px/1.6 Consolas, monospace;
+    }
+
+    .empty {
+      color: var(--muted);
+    }
+
+    .notice {
+      padding: 13px;
+      margin-top: 12px;
+      border: 1px solid #66532b;
+      background: #302819;
+      border-radius: 9px;
+      color: #ffe2a3;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    footer {
+      text-align: center;
+      color: var(--muted);
+      padding: 15px;
+      font-size: 12px;
+    }
+
+    @media (max-width: 700px) {
+      main { padding: 12px; }
+      .grid { grid-template-columns: 1fr; }
+      .controls { grid-template-columns: 1fr; }
+      .preview iframe { height: 380px; }
+      .panel { padding: 14px; }
+    }
+  </style>
 </head>
+
 <body>
-<header>
-  <h1>🌐 Web System Lab</h1>
-  <p>Explore how a browser communicates with a real website.</p>
-</header>
+  <header>
+    <h1>Web System Lab</h1>
+    <p>Website preview, HTTP response inspection and IP testing</p>
+  </header>
 
-<main>
-<section class="card">
-  <h2>1. Enter a real website</h2>
-  <label for="url">Website URL or IP address</label>
-  <input id="url" value="https://example.com" placeholder="https://example.com">
-  <button onclick="loadWebsite()">Load Website</button>
-  <button class="secondary" onclick="resetLab()">Reset Lab</button>
-  <p class="note">Try https://example.com, another public website, or a local IP such as http://192.168.100.65:8123. Local devices must be reachable from your device and may block browser access.</p>
-</section>
+  <main>
+    <section class="panel">
+      <h2>Connection Tester</h2>
 
-<section class="card">
-  <h2>2. Observe the connection stages</h2>
-  <div class="stages" id="stages">
-    <div class="stage"><h3>1. Client</h3><p>Your browser starts the request.</p></div>
-    <div class="stage"><h3>2. DNS</h3><p>A domain name may be resolved to an IP address.</p></div>
-    <div class="stage"><h3>3. Connection</h3><p>The browser attempts a network connection; HTTPS also negotiates TLS.</p></div>
-    <div class="stage"><h3>4. HTTP Request</h3><p>The browser requests a resource from the server.</p></div>
-    <div class="stage"><h3>5. Web Server</h3><p>The destination server may process the request.</p></div>
-    <div class="stage"><h3>6. Application / DB</h3><p>The site may run application logic and query a database.</p></div>
-    <div class="stage"><h3>7. HTTP Response</h3><p>The server may return a status and content.</p></div>
-    <div class="stage"><h3>8. Browser Render</h3><p>The browser displays the page if it can load it.</p></div>
-  </div>
-  <p class="note">These stages explain the usual process. This page cannot directly observe every internal step, such as raw DNS packets, TCP handshake packets, or the site's private database activity.</p>
-</section>
+      <div class="controls">
+        <div>
+          <label for="mode">Connection type</label>
+          <select id="mode">
+            <option value="https">HTTPS / HTTP URL</option>
+            <option value="ip">IP address</option>
+          </select>
+        </div>
 
-<section class="card">
-  <h2>3. Live website preview</h2>
-  <p class="note">This is a real embedded webpage, not a drawing. Some websites refuse embedding, so a blank preview does not necessarily mean the server is offline.</p>
-  <iframe id="preview" title="Live website preview" src="about:blank" referrerpolicy="no-referrer"></iframe>
-  <button class="secondary" onclick="openInNewTab()">Open website in a new tab</button>
-</section>
+        <div>
+          <label for="target">Website URL or IP address</label>
+          <input
+            id="target"
+            type="text"
+            placeholder="https://example.com"
+            value="https://example.com"
+            autocomplete="url"
+            spellcheck="false"
+          >
+        </div>
+      </div>
 
-<section class="card">
-  <h2>4. Real browser request result</h2>
-  <div id="status" role="status">Waiting for you to load a website.</div>
-  <h3>Response headers</h3>
-  <pre id="headers">Not available yet.</pre>
-  <h3>Response body sample</h3>
-  <pre id="body">Not available yet.</pre>
-  <p class="note">Browser security (CORS, mixed-content rules, and site policies) can prevent this lab from reading a response even when the website opens normally. It cannot bypass those protections.</p>
-</section>
+      <div class="actions">
+        <button id="loadBtn">Load Website</button>
+        <button id="testBtn" class="secondary">Test HTTP Request</button>
+      </div>
 
-<section class="card">
-  <h2>5. What happened?</h2>
-  <div id="lesson" aria-live="polite">Load a URL to begin. We will report what this browser can actually observe.</div>
-</section>
-</main>
+      <p class="hint">
+        HTTPS/HTTP mode accepts a complete website URL. IP mode accepts
+        an IP address and optional port, for example 192.168.1.10:8123.
+        Use only systems you are authorized to access.
+      </p>
 
-<footer>Web System Lab · HTML, CSS and JavaScript · Hosted with GitHub Pages</footer>
+      <div class="status" aria-live="polite">
+        <span class="dot" id="statusDot"></span>
+        <div>
+          <strong id="statusTitle">Ready</strong>
+          <div id="statusText" class="hint">
+            Enter an address to begin.
+          </div>
+        </div>
+      </div>
+    </section>
 
-<script>
-let currentUrl = "https://example.com";
-let requestNumber = 0;
+    <div class="grid">
+      <section class="panel preview">
+        <h2>Live Website Preview</h2>
+        <iframe
+          id="preview"
+          title="Website preview"
+          src="about:blank"
+          referrerpolicy="no-referrer"
+          sandbox="allow-forms allow-scripts allow-same-origin allow-popups"
+        ></iframe>
+        <p class="hint" style="padding: 0 15px 12px">
+          Some websites block iframe previews. Use Open in New Tab
+          if the preview is blank.
+        </p>
+        <div style="padding: 0 15px 15px">
+          <button id="openBtn" class="secondary">Open in New Tab</button>
+        </div>
+      </section>
 
-function normalizeUrl(value) {
-  let s = value.trim();
-  if (!s) throw new Error("Enter a website URL or IP address.");
-  if (!/^https?:\/\//i.test(s)) s = "http://" + s;
-  const parsed = new URL(s);
-  if (!["http:", "https:"].includes(parsed.protocol)) {
-    throw new Error("Only HTTP and HTTPS URLs are supported.");
-  }
-  return parsed.href;
-}
+      <section class="panel">
+        <h2>HTTP Response Status</h2>
+        <pre id="httpStatus" class="empty">No request made yet.</pre>
 
-function markStage(n) {
-  document.querySelectorAll(".stage").forEach((el, i) => {
-    el.classList.toggle("active", i === n - 1);
-  });
-}
+        <h2 style="margin-top: 20px">Response Headers</h2>
+        <pre id="headers" class="empty">Waiting for request...</pre>
+      </section>
 
-function setStatus(message) {
-  document.getElementById("status").textContent = message;
-}
+      <section class="panel">
+        <h2>Response Body</h2>
+        <pre id="body" class="empty">The response body will appear here when browser security permits.</pre>
+      </section>
 
-async function loadWebsite() {
-  const myRequest = ++requestNumber;
-  let url;
-  try {
-    url = normalizeUrl(document.getElementById("url").value);
-  } catch (e) {
-    setStatus("Input error: " + e.message);
-    return;
-  }
+      <section class="panel">
+        <h2>Request Information</h2>
+        <pre id="info">Request URL: Not set
+Method: GET
+Mode: Browser fetch
+Credentials: Omitted</pre>
 
-  currentUrl = url;
-  document.getElementById("headers").textContent = "Request in progress...";
-  document.getElementById("body").textContent = "Waiting for a readable response...";
-  document.getElementById("lesson").textContent =
-    "The browser is attempting a real request. Results depend on the URL, network, server and browser security policies.";
+        <div class="notice">
+          Browser security note: a website may open normally but refuse
+          JavaScript access from GitHub Pages because of CORS.
+          This dashboard cannot bypass CORS, authentication, firewalls,
+          or Cloudflare security rules.
+        </div>
+      </section>
+    </div>
+  </main>
 
-  // A real navigation attempt. The remote site may refuse embedding.
-  document.getElementById("preview").src = url;
+  <footer>
+    Web System Lab · Educational network testing dashboard
+  </footer>
 
-  markStage(1);
-  setStatus("Client: preparing request for " + url);
-  await pause(250);
-  if (myRequest !== requestNumber) return;
+  <script>
+    "use strict";
 
-  markStage(2);
-  setStatus("DNS: the browser/network will resolve the hostname if needed. Raw DNS results are not exposed to this page.");
-  await pause(250);
-  if (myRequest !== requestNumber) return;
+    const mode = document.getElementById("mode");
+    const target = document.getElementById("target");
+    const loadBtn = document.getElementById("loadBtn");
+    const testBtn = document.getElementById("testBtn");
+    const openBtn = document.getElementById("openBtn");
 
-  markStage(3);
-  setStatus("Connection: the browser is attempting to reach the destination. Raw TCP/TLS handshake details are not exposed here.");
-  await pause(250);
-  if (myRequest !== requestNumber) return;
+    const preview = document.getElementById("preview");
+    const statusDot = document.getElementById("statusDot");
+    const statusTitle = document.getElementById("statusTitle");
+    const statusText = document.getElementById("statusText");
 
-  markStage(4);
-  setStatus("HTTP: attempting a real fetch request. The browser may block reading the response because of CORS.");
-  try {
-    const response = await fetch(url, {
-      method: "GET",
-      mode: "cors",
-      cache: "no-store",
-      redirect: "follow"
+    const httpStatus = document.getElementById("httpStatus");
+    const headersBox = document.getElementById("headers");
+    const bodyBox = document.getElementById("body");
+    const info = document.getElementById("info");
+
+    let currentUrl = "";
+    let requestNumber = 0;
+
+    function setStatus(title, message, type = "") {
+      statusTitle.textContent = title;
+      statusText.textContent = message;
+      statusDot.className = "dot" + (type ? " " + type : "");
+    }
+
+    function normalizeUrl() {
+      let value = target.value.trim();
+
+      if (!value) {
+        throw new Error("Enter a website URL or IP address.");
+      }
+
+      if (/\s/.test(value)) {
+        throw new Error("The address cannot contain spaces.");
+      }
+
+      if (mode.value === "ip") {
+        if (value.includes("://")) {
+          throw new Error(
+            "In IP mode, enter an IP address and optional port only."
+          );
+        }
+
+        // IPv6 literals must be enclosed in square brackets,
+        // for example [2001:db8::1]:8123.
+        const isIPv4 = /^\d{1,3}(?:\.\d{1,3}){3}(?::\d{1,5})?$/.test(value);
+        const isIPv6 = /^\[[0-9a-fA-F:]+\](?::\d{1,5})?$/.test(value);
+
+        if (!isIPv4 && !isIPv6) {
+          throw new Error(
+            "Enter a valid IPv4 address, or a bracketed IPv6 address."
+          );
+        }
+
+        const portMatch = value.match(/:(\d+)$/);
+        if (portMatch) {
+          const port = Number(portMatch[1]);
+          if (port < 1 || port > 65535) {
+            throw new Error("Port must be between 1 and 65535.");
+          }
+        }
+
+        // Private office IPs generally use HTTP unless configured otherwise.
+        value = "http://" + value;
+      } else if (!/^https?:\/\//i.test(value)) {
+        value = "https://" + value;
+      }
+
+      let parsed;
+      try {
+        parsed = new URL(value);
+      } catch {
+        throw new Error("That URL is not valid.");
+      }
+
+      if (!["http:", "https:"].includes(parsed.protocol)) {
+        throw new Error("Only HTTP and HTTPS addresses are supported.");
+      }
+
+      if (parsed.username || parsed.password) {
+        throw new Error("Do not put usernames or passwords in the URL.");
+      }
+
+      return parsed.href;
+    }
+
+    function resetResults(url) {
+      httpStatus.textContent = "Request in progress...";
+      headersBox.textContent = "Waiting for response...";
+      bodyBox.textContent = "Waiting for response...";
+      info.textContent =
+        "Request URL: " + url +
+        "\nMethod: GET" +
+        "\nMode: Browser fetch" +
+        "\nCredentials: Omitted";
+    }
+
+    function showError(message, url) {
+      httpStatus.textContent = "Request could not be completed.";
+      headersBox.textContent = "Response headers are unavailable.";
+      bodyBox.textContent = message;
+      info.textContent =
+        "Request URL: " + (url || "Not available") +
+        "\nMethod: GET" +
+        "\nResult: Failed in browser";
+      setStatus(
+        "Request failed or response blocked",
+        message,
+        "error"
+      );
+    }
+
+    function prepareUrl() {
+      const url = normalizeUrl();
+      currentUrl = url;
+      return url;
+    }
+
+    loadBtn.addEventListener("click", () => {
+      try {
+        const url = prepareUrl();
+
+        // A preview can load even if JavaScript cannot read its response.
+        preview.src = url;
+
+        info.textContent =
+          "Preview URL: " + url +
+          "\nPreview: Opened in isolated iframe" +
+          "\nHTTP response access: Not yet tested";
+
+        setStatus(
+          "Preview requested",
+          "The browser is trying to display the website. This does not confirm HTTP response access.",
+          ""
+        );
+      } catch (error) {
+        showError(error.message, "");
+      }
     });
 
-    if (myRequest !== requestNumber) return;
-    markStage(7);
-    const headerText = [];
-    response.headers.forEach((value, key) => {
-      headerText.push(key + ": " + value);
+    openBtn.addEventListener("click", () => {
+      try {
+        const url = prepareUrl();
+        window.open(url, "_blank", "noopener,noreferrer");
+      } catch (error) {
+        showError(error.message, "");
+      }
     });
 
-    document.getElementById("headers").textContent =
-      "HTTP status: " + response.status + " " + response.statusText +
-      "\nFinal URL: " + response.url +
-      "\n\nReadable headers:\n" +
-      (headerText.join("\n") || "No response headers exposed to JavaScript.");
+    testBtn.addEventListener("click", async () => {
+      let url;
 
-    const text = await response.text();
-    if (myRequest !== requestNumber) return;
-    document.getElementById("body").textContent =
-      text.slice(0, 5000) + (text.length > 5000 ? "\n\n[Sample truncated at 5000 characters]" : "");
+      try {
+        url = prepareUrl();
+      } catch (error) {
+        showError(error.message, "");
+        return;
+      }
 
-    markStage(8);
-    setStatus("Fetch completed. HTTP status: " + response.status + " " + response.statusText);
-    document.getElementById("lesson").textContent =
-      "The browser successfully read an HTTP response. Status codes describe the result (for example, 200 means OK, 404 means Not Found). This does not expose the server's private application/database steps.";
-  } catch (e) {
-    if (myRequest !== requestNumber) return;
-    document.getElementById("headers").textContent =
-      "Unavailable: the browser did not expose readable response headers.";
-    document.getElementById("body").textContent =
-      "Unavailable: " + e.message +
-      "\n\nPossible causes include CORS restrictions, DNS failure, connection refusal, TLS errors, an offline device, or browser mixed-content/security rules. This error alone cannot identify which cause occurred.";
-    setStatus("The browser could not provide a readable fetch response. This does NOT prove the website is offline.");
-    document.getElementById("lesson").textContent =
-      "The request was attempted, but browser JavaScript could not read the response. Try opening the URL in a new tab. If it opens there, the site may simply block cross-origin fetch or iframe embedding.";
-  }
-}
+      const thisRequest = ++requestNumber;
+      testBtn.disabled = true;
+      loadBtn.disabled = true;
 
-function pause(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
+      resetResults(url);
+      setStatus(
+        "HTTPS Request",
+        "Waiting for the server response. Browser security may block access.",
+        ""
+      );
 
-function openInNewTab() {
-  try {
-    window.open(normalizeUrl(document.getElementById("url").value), "_blank", "noopener");
-  } catch (e) {
-    setStatus("Input error: " + e.message);
-  }
-}
+      // Abort slow requests after 15 seconds.
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 15000);
 
-function resetLab() {
-  requestNumber++;
-  document.getElementById("url").value = "https://example.com";
-  document.getElementById("preview").src = "about:blank";
-  document.getElementById("headers").textContent = "Not available yet.";
-  document.getElementById("body").textContent = "Not available yet.";
-  document.getElementById("lesson").textContent = "Load a URL to begin.";
-  setStatus("Waiting for you to load a website.");
-  document.querySelectorAll(".stage").forEach(el => el.classList.remove("active"));
-}
-</script>
+      try {
+        const response = await fetch(url, {
+          method: "GET",
+          mode: "cors",
+          credentials: "omit",
+          redirect: "follow",
+          cache: "no-store",
+          signal: controller.signal
+        });
+
+        if (thisRequest !== requestNumber) return;
+
+        httpStatus.textContent =
+          "Status: " + response.status +
+          " " + response.statusText +
+          "\nOK: " + response.ok +
+          "\nFinal URL: " + response.url +
+          "\nRedirected: " + response.redirected;
+
+        const headerLines = [];
+        response.headers.forEach((value, name) => {
+          headerLines.push(name + ": " + value);
+        });
+
+        headersBox.textContent = headerLines.length
+          ? headerLines.join("\n")
+          : "No readable response headers.";
+
+        const text = await response.text();
+
+        bodyBox.textContent = text.length > 20000
+          ? text.slice(0, 20000) + "\n\n[Body truncated at 20,000 characters]"
+          : (text || "[Empty response body]");
+
+        setStatus(
+          response.ok ? "HTTP request successful" : "HTTP response received",
+          "The browser could read the response. HTTP status: " + response.status,
+          response.ok ? "success" : "error"
+        );
+      } catch (error) {
+        if (thisRequest !== requestNumber) return;
+
+        if (error.name === "AbortError") {
+          showError(
+            "The request timed out after 15 seconds. The server may be slow, unreachable, or the browser may be waiting on a blocked request.",
+            url
+          );
+        } else {
+          showError(
+            "The browser could not expose the response to this dashboard. Possible causes include CORS restrictions, TLS/network errors, Cloudflare rules, or the server refusing the request.\n\nTechnical detail: " +
+            error.message +
+            "\n\nTry Open in New Tab to check whether the website itself opens.",
+            url
+          );
+        }
+      } finally {
+        clearTimeout(timeout);
+        if (thisRequest === requestNumber) {
+          testBtn.disabled = false;
+          loadBtn.disabled = false;
+        }
+      }
+    });
+
+    mode.addEventListener("change", () => {
+      target.value = mode.value === "ip"
+        ? "192.168.1.10:8123"
+        : "https://example.com";
+
+      setStatus(
+        "Ready",
+        "Enter an address and choose an action.",
+        ""
+      );
+    });
+
+    target.addEventListener("keydown", event => {
+      if (event.key === "Enter") {
+        testBtn.click();
+      }
+    });
+  </script>
 </body>
 </html>
